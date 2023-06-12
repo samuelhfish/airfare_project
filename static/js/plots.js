@@ -1,5 +1,5 @@
 // Grab data
-let apiAirfare = "airfare_2017.db";
+let apiAirfare = "/api/v1.0/departures";
 
 // function init() {
 //   d3.json(apiAirfare).then(function(data) {
