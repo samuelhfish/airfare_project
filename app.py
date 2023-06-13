@@ -83,7 +83,7 @@ def departures():
     # Create our session (link) from Python to the DB
     session = Session(engine)
 
-    """Return a list of passenger data including the name, age, and sex of each passenger"""
+    """Return a dictionary of route data including the departure city, arrival city, and price change."""
 
         # Query all passengers
     results = session.query(Airfare.city1, Airfare.city2, 
@@ -107,6 +107,40 @@ def departures():
         all_departures.append(city_dict)
 
     return jsonify(all_departures)
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
+
+@app.route("/api/v1.0/flights_by_departure")
+def flights_by_departure():
+
+    session = Session(engine)
+
+    """Return a dictionary of route data including the departure city, arrival city, and price change."""
+
+        # Query all passengers
+    all_data = session.query(Airfare.city1, Airfare.city2, 
+                            Airfare.amount_change, Airfare.amount_change_pax).all()
+
+
+
+    session.close()
+    
+    
+    departure_dict = {}
+    for row in all_data:
+            departure_city = row["Departure"]
+            if departure_city in departure_dict:
+                departure_dict[departure_city]["ToCities"].append(row["Arrival"])
+                departure_dict[departure_city]["Rates"].append(row["Rate"])
+            else:
+                departure_dict[departure_city] = {
+                    "ToCities": [row["Arrival"]],
+                    "Rates": [row["Rate"]],
+                }
+        return departure_dict
 
 if __name__ == '__main__':
     app.run(debug=True)
