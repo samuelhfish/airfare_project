@@ -78,6 +78,39 @@ def main_page():
     return render_template('index.html')
 
 
+
+
+
+@app.route("/api/v1.0/flights_by_departure")
+def flights_by_departure():
+
+    session = Session(engine)
+
+    """Return a dictionary of route data including the departure city, arrival city, and price change."""
+
+        # Query all passengers
+    all_data = session.query(Airfare.city1, Airfare.city2, 
+                            Airfare.amount_change, Airfare.amount_change_pax).all()
+
+
+
+    session.close()
+    
+    
+    departure_dict = {}
+    for row in all_data:
+        departure_city = row["city1"]
+        if departure_city in departure_dict:
+            departure_dict[departure_city]["ToCities"].append(row["city2"])
+            departure_dict[departure_city]["Rates"].append(row["amount_change"])
+        else:
+            departure_dict[departure_city] = {
+                "ToCities": [row["city2"]],
+                "Rates": [row["amount_change"]],
+            }
+    print(departure_dict)
+    return jsonify(departure_dict)
+
 @app.route("/api/v1.0/departures")
 def departures():
     # Create our session (link) from Python to the DB
@@ -108,39 +141,6 @@ def departures():
 
     return jsonify(all_departures)
 
-if __name__ == '__main__':
-    app.run(debug=True)
-
-
-
-@app.route("/api/v1.0/flights_by_departure")
-def flights_by_departure():
-
-    session = Session(engine)
-
-    """Return a dictionary of route data including the departure city, arrival city, and price change."""
-
-        # Query all passengers
-    all_data = session.query(Airfare.city1, Airfare.city2, 
-                            Airfare.amount_change, Airfare.amount_change_pax).all()
-
-
-
-    session.close()
-    
-    
-    departure_dict = {}
-    for row in all_data:
-            departure_city = row["Departure"]
-            if departure_city in departure_dict:
-                departure_dict[departure_city]["ToCities"].append(row["Arrival"])
-                departure_dict[departure_city]["Rates"].append(row["Rate"])
-            else:
-                departure_dict[departure_city] = {
-                    "ToCities": [row["Arrival"]],
-                    "Rates": [row["Rate"]],
-                }
-        return departure_dict
 
 if __name__ == '__main__':
     app.run(debug=True)
