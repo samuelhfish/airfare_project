@@ -28,7 +28,7 @@ session
 
 
 class Airfare(Base):
-    __tablename__ = 'airfare_decrease2017NEW'
+    __tablename__ = 'airfare_decrease2017clean'
     id = Column(Integer, primary_key=True)
     Year = Column(Integer)
     quarter = Column(Integer)

@@ -4,7 +4,7 @@ import pandas as pd
 from pathlib import Path
 
 # use pandas to create dataframe based on csv data
-df_airfare_decrease2017 = pd.read_csv('cleaned_data.csv')
+df_airfare_decrease2017 = pd.read_csv('airfare_clean2017.csv')
 
 # create a sqlite database and a connection to it
 cnxn = sqlite3.connect('airfare_2017.db')
@@ -12,7 +12,7 @@ crsr = cnxn.cursor()
 
 # Recreate the table with the primary key constraint
 create_table_new = '''
-    CREATE TABLE airfare_decrease2017NEW (
+    CREATE TABLE airfare_decrease2017clean (
         id INTEGER PRIMARY KEY,
         Year INTEGER,
         quarter INTEGER,
@@ -35,7 +35,7 @@ create_table_new = '''
 crsr.execute(create_table_new)
 
 # insert your dataframes into that database
-df_airfare_decrease2017.to_sql('airfare_decrease2017NEW', cnxn, if_exists='replace', index=False)
+df_airfare_decrease2017.to_sql('airfare_decrease2017clean', cnxn, if_exists='replace', index=False)
 
 
 cnxn.close()
