@@ -16,14 +16,14 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12 jumbotron text-center">
-        <h1>Belly Button Biodiversity Dashboard</h1>
+        <h1>2017 Airfare Dashboard</h1>
         <p>Use the interactive charts below to explore the dataset</p>
       </div>
     </div>
     <div class="row">
       <div class="col-md-2">
         <div class="well">
-          <h5>Test Subject ID No.:</h5>
+          <h5>Departure:</h5>
           <select id="selDataset" onchange="optionChanged(this.value)"></select>
         </div>
         <div class="panel panel-primary">
@@ -48,7 +48,7 @@
     </div>
   </div>
 
-  <h4>Accessing the Titanic Passenger API</h4>
+  <h4>Accessing the Airfare API</h4>
   <p>The following endpoints are available to access data:</p>
   <ul>
       <li>
@@ -58,11 +58,6 @@
       <li>
           <a href="/api/v1.0/flights_by_departure">/api/v1.0/flights_by_departure</a>
           <p>Return a list of departure city with arrival cities and corresponding prices changes</p>
-      </li>
-      <li>
-          <a href="/api/v1.0/passengerbyname/<name>">/api/v1.0/passengerbyname/&lt;name&gt;</a>
-          <p>Search for passengers by name. For example:</p>
-          <a href="/api/v1.0/passengerbyname/Behr,%20Mr%20Karl%20Howell">/api/v1.0/passengerbyname/Behr,%20Mr%20Karl%20Howell</a>
       </li>
   </ul>
 
