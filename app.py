@@ -11,18 +11,6 @@ from sqlalchemy import create_engine, func
 
 from flask import Flask, jsonify, render_template
 
-# ###data setup
-# engine = create_engine("sqlite:///airfare_2017.db")
-
-# # reflect an existing database into a new model
-# Base = automap_base()
-
-# # reflect the tables
-# Base.prepare(autoload_with=engine)
-
-# # Save reference to the table
-# Decrese_2017 = Base.classes.airefare_decrease2017NEW
-
 # # ######################################################
 # # Create a base class for declarating class definitions to produce Table objects
 Base = declarative_base()
@@ -73,7 +61,7 @@ app = Flask(__name__)
 def main_page():
     """
     Render the main page of the webapp.
-    Currently, the only api route accessed by the web page is 'passengersbyclass'.
+    Please choose the route from available routes below.
     """
     return render_template('index.html')
 
@@ -90,7 +78,7 @@ def flights_by_departure():
 
         # Query all passengers
     all_data = session.query(Airfare.city1, Airfare.city2, 
-                            Airfare.amount_change, Airfare.amount_change_pax).all()
+                            Airfare.amount_change, Airfare.percent_change, Airfare.amount_change_pax, Airfare.percent_change_pax).all()
 
 
 
@@ -103,10 +91,16 @@ def flights_by_departure():
         if departure_city in departure_dict:
             departure_dict[departure_city]["ToCities"].append(row["city2"])
             departure_dict[departure_city]["Rates"].append(row["amount_change"])
+            departure_dict[departure_city]["PercentChangePrice"].append(row["percent_change"])
+            departure_dict[departure_city]["PassengerChange"].append(row["amount_change_pax"])
+            departure_dict[departure_city]["PercentChangePax"].append(row["percent_change_pax"])
         else:
             departure_dict[departure_city] = {
                 "ToCities": [row["city2"]],
                 "Rates": [row["amount_change"]],
+                "PercentChangePrice": [row["percent_change"]],
+                "PassengerChange": [row["amount_change_pax"]],
+                "PercentChangePax": [row["percent_change_pax"]],
             }
     print(departure_dict)
     return jsonify(departure_dict)
@@ -121,11 +115,6 @@ def departures():
         # Query all passengers
     results = session.query(Airfare.city1, Airfare.city2, 
                             Airfare.amount_change, Airfare.amount_change_pax).all()
-
-
-    # # Query all passengers
-    # results = session.query(Decrese_2017.city1, Decrese_2017.city2, 
-    #                         Decrese_2017.amount_change, Decrese_2017.amount_change_pax).all()
 
     session.close()
 

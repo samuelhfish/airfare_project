@@ -22,11 +22,11 @@ d3.json(apiAirfare).then(function(data) {
     
     buildChart('Austin, TX');
     // buildMetadata(sample940);
-    // buildBubbles(sample940);
+    // buildBubbles('Austin, TX');
     // buildGauge(sample940);
 });
 
-static_init();
+// static_init();
 
 }
 
@@ -71,11 +71,15 @@ function buildChart(city) {
         let trace = {
             x: departureCity.ToCities,
             y: departureCity.Rates,
+            text: `${departureCity.PercentChangePrice}%`,
+            textposition: 'auto',
+            hoverinfo: 'none',
             // text: otu_labels.slice(0,10).reverse(),
             // name: "Bacteria",
             type: "bar",
             orientation: "v"
         };
+
 
         // Data array
         // `data` has already been defined, so we must choose a new name here:
@@ -91,9 +95,90 @@ function buildChart(city) {
                 b: 100
             }
         };
-        Plotly.newPlot("bar", traceData, layout);
+        Plotly.newPlot("bar1", traceData, layout);
     });   
 };
+
+function buildChart(city) {
+    d3.json(apiAirfare).then(function(data) {
+        let departureCity = data[city];
+
+        let trace1 = {
+            x: departureCity.ToCities,
+            y: departureCity.Rates,
+            text: `${departureCity.PercentChangePrice}%`,
+            textposition: 'auto',
+            hoverinfo: 'none',
+            type: "bar",
+            orientation: "v"
+        };
+
+        let trace2 = {
+            x: departureCity.ToCities,
+            y: departureCity.PassengerChange,
+            type: "bar",
+            orientation: "v"
+        };
+
+        let traceData = [trace1];
+
+        let layout = {
+            title: "Price Change by Departure",
+            margin: {
+                l: 100,
+                r: 100,
+                t: 100,
+                b: 100
+            }
+        };
+
+        Plotly.newPlot("bar1", traceData, layout);
+
+        traceData = [trace2];
+
+        layout = {
+            title: "Passenger Change by Departure",
+            margin: {
+                l: 100,
+                r: 100,
+                t: 100,
+                b: 100
+            }
+        };
+
+        Plotly.newPlot("bar2", traceData, layout);
+    });   
+}
+
+// function buildBubbles(city) {
+//     d3.json(apiAirfare).then(function(data) {
+        
+//         let departureCity = data[city]
+
+//         let tracebubble = {
+//             x: departureCity.ToCities,
+//             y: departureCity.PassengerChange,
+//             // text: otu_labels,
+//             mode: "markers",
+//             marker: {
+//                 size: departureCity.PassengerChange,
+//                 // color: departureCity.ToCities,
+//                 colorscale: "YlGnBu"
+//             }
+//         };
+
+//         let traceData = [tracebubble]
+
+//         let layout = {
+//             title: "Passenger Change",
+//             hovermode: "closest",
+//             xaxis: {title: "Destination City"},
+//         };
+
+//         Plotly.newPlot("bubble", traceData, layout)
+//     });
+// };
+
 
 
 function optionChanged(subject) {
@@ -109,45 +194,45 @@ function optionChanged(subject) {
 
 init();
 
-function static_init() {
-    d3.json(apiOriginal).then(function(data) {
-      const departures = data;
-      const arrivals = data['ToCities'];
-      const priceChanges = data['Price Changed'];
-      // Sort the price changes in descending order
-      const sortedIndices = priceChanges.map((_, index) => index)
-        .sort((a, b) => priceChanges[b] - priceChanges[a]);
-      // Get the top five indices
-      const topFiveIndices = sortedIndices.slice(0, 5);
-      // Get the top five departure and arrival cities and price changes
-      const topDepartures = topFiveIndices.map(index => departures[index]);
-      const topArrivals = topFiveIndices.map(index => arrivals[index]);
-      const topPriceChanges = topFiveIndices.map(index => priceChanges[index]);
-      let trace1 = {
-        x: topDepartures.map((departure, index) => departure + ' & ' + topArrivals[index]),
-        y: topPriceChanges,
-        type: 'bar',
-        marker: {
-          color: [
-            'rgba(255, 100, 102, 0.7)',
-            'rgba(254, 39, 60, 0.7)',
-            'rgba(252, 185, 88, 0.7)',
-            'rgba(40, 51, 223, 0.7)',
-            'rgba(0, 155, 0, 0.7)'
-          ],
-        },
-      };
-      let layout1 = {
-        title: 'Top Five Price Changes',
-        font: { size: 18 },
-        xaxis: {
-          title: 'Departure & Arrival Cities'
-        },
-        yaxis: {
-          title: 'Price Change'
-        }
-      };
-      let config = { responsive: true }
-      Plotly.newPlot("plot1", [trace1], layout1, config);
-    });
-  }
+// function static_init() {
+//     d3.json(apiOriginal).then(function(data) {
+//       const departures = data;
+//       const arrivals = data['ToCities'];
+//       const priceChanges = data['Price Changed'];
+//       // Sort the price changes in descending order
+//       const sortedIndices = priceChanges.map((_, index) => index)
+//         .sort((a, b) => priceChanges[b] - priceChanges[a]);
+//       // Get the top five indices
+//       const topFiveIndices = sortedIndices.slice(0, 5);
+//       // Get the top five departure and arrival cities and price changes
+//       const topDepartures = topFiveIndices.map(index => departures[index]);
+//       const topArrivals = topFiveIndices.map(index => arrivals[index]);
+//       const topPriceChanges = topFiveIndices.map(index => priceChanges[index]);
+//       let trace1 = {
+//         x: topDepartures.map((departure, index) => departure + ' & ' + topArrivals[index]),
+//         y: topPriceChanges,
+//         type: 'bar',
+//         marker: {
+//           color: [
+//             'rgba(255, 100, 102, 0.7)',
+//             'rgba(254, 39, 60, 0.7)',
+//             'rgba(252, 185, 88, 0.7)',
+//             'rgba(40, 51, 223, 0.7)',
+//             'rgba(0, 155, 0, 0.7)'
+//           ],
+//         },
+//       };
+//       let layout1 = {
+//         title: 'Top Five Price Changes',
+//         font: { size: 18 },
+//         xaxis: {
+//           title: 'Departure & Arrival Cities'
+//         },
+//         yaxis: {
+//           title: 'Price Change'
+//         }
+//       };
+//       let config = { responsive: true }
+//       Plotly.newPlot("plot1", [trace1], layout1, config);
+//     });
+//   }
