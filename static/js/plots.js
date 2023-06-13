@@ -192,7 +192,7 @@ function optionChanged(subject) {
 
 };
 
-init();
+
 
 // function static_init() {
 //     d3.json(apiOriginal).then(function(data) {
@@ -236,3 +236,35 @@ init();
 //       Plotly.newPlot("plot1", [trace1], layout1, config);
 //     });
 //   }
+
+// Fetch data from the API route
+d3.json(apiOriginal).then(function(data) {
+    // Process the data
+    const processedData = data.map(function(item) {
+      return {
+        x: item["Departure City"] + " - " + item["Arrival City"],
+        y: item["Price Changed"]
+      };
+    });
+
+    // Sort the processed data by "Price Changed" in ascending order
+    processedData.sort((a, b) => a.y - b.y);
+
+    // Get the lowest 10 data objects
+    const lowest10 = processedData.slice(0, 10);
+
+    // Render the bar graph
+    const chartElement = document.getElementById("chart");
+
+    lowest10.forEach(item => {
+      const barElement = document.createElement("div");
+      barElement.classList.add("bar");
+      barElement.style.height = `${Math.abs(item.y)}px`;
+      chartElement.appendChild(barElement);
+    });
+  })
+  .catch(function(error) {
+    console.error("Error fetching data from the API:", error);
+  });
+
+  init();

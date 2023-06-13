@@ -113,15 +113,16 @@ def departures():
     """Return a dictionary of route data including the departure city, arrival city, and price change."""
 
         # Query all passengers
-    results = session.query(Airfare.city1, Airfare.city2, 
+    results = session.query(Airfare.id, Airfare.city1, Airfare.city2, 
                             Airfare.amount_change, Airfare.amount_change_pax).all()
 
     session.close()
 
     # Create a dictionary from the row data and append to a list of all_passengers
     all_departures = []
-    for city1, city2, amount_change, amount_change_pax in results:
+    for id, city1, city2, amount_change, amount_change_pax in results:
         city_dict = {}
+        city_dict["Index"] = id
         city_dict["Departure City"] = city1
         city_dict["Arrival City"] = city2
         city_dict["Price Changed"] = amount_change
