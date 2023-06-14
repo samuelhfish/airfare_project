@@ -78,7 +78,7 @@ def flights_by_departure():
 
         # Query all passengers
     all_data = session.query(Airfare.city1, Airfare.city2, 
-                            Airfare.amount_change, Airfare.percent_change, Airfare.amount_change_pax, Airfare.percent_change_pax).all()
+                            Airfare.amount_change, Airfare.percent_change, Airfare.amount_change_pax, Airfare.percent_change_pax, Airfare.Latitude2, Airfare.Longitude2).all()
 
 
 
@@ -94,6 +94,9 @@ def flights_by_departure():
             departure_dict[departure_city]["PercentChangePrice"].append(row["percent_change"])
             departure_dict[departure_city]["PassengerChange"].append(row["amount_change_pax"])
             departure_dict[departure_city]["PercentChangePax"].append(row["percent_change_pax"])
+            departure_dict[departure_city]["DestLat"].append(row["Latitude2"])
+            departure_dict[departure_city]["DestLng"].append(row["Longitude2"])
+
         else:
             departure_dict[departure_city] = {
                 "ToCities": [row["city2"]],
@@ -101,6 +104,8 @@ def flights_by_departure():
                 "PercentChangePrice": [row["percent_change"]],
                 "PassengerChange": [row["amount_change_pax"]],
                 "PercentChangePax": [row["percent_change_pax"]],
+                "DestLat": [row["Latitude2"]],
+                "DestLng": [row["Longitude2"]],
             }
     print(departure_dict)
     return jsonify(departure_dict)
