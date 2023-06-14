@@ -1,14 +1,14 @@
-#Fluctuations in Airline Fares
+## "Fluctuations in Airline Fares"
 
 This was a collaborative project to develop a full-stack web application. 
 
 Techonlogies used:
-    Python
-    Pandas
-    HTML
-    Flask
-    Javascript
-    SQlite
+    - Python
+    - Pandas
+    - HTML
+    - Flask
+    - Javascript
+    - SQlite
    
 
 Our aim was to show how Price decreases and Passenger quantity increases corrrelated fluctuated and correlated. 
