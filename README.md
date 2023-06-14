@@ -7,7 +7,7 @@ Flask:
         "/api/v1.0/flights_by_departure"
         "/api/v1.0/departures"
 
-TEAM MEMBER: 
+TEAM MEMBERS: 
     Sam Fish
     Omer Sen
     Ralegh Bruce
