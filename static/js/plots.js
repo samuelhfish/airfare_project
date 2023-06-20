@@ -30,6 +30,7 @@ d3.json(apiAirfare).then(function(data) {
 
 }
 
+
 // function buildFlightInfo(sample) {
     
 //     d3.json(apiAirfare).then(function(data) {
@@ -101,8 +102,13 @@ d3.json(apiAirfare).then(function(data) {
 
 function buildChart(city) {
     d3.json(apiAirfare).then(function(data) {
+
+        console.log(city);
+
         let departureCity = data[city];
 
+        console.log(departureCity);
+        
         let trace1 = {
             x: departureCity.ToCities,
             y: departureCity.Rates,
@@ -150,36 +156,6 @@ function buildChart(city) {
     });   
 }
 
-// function buildBubbles(city) {
-//     d3.json(apiAirfare).then(function(data) {
-        
-//         let departureCity = data[city]
-
-//         let tracebubble = {
-//             x: departureCity.ToCities,
-//             y: departureCity.PassengerChange,
-//             // text: otu_labels,
-//             mode: "markers",
-//             marker: {
-//                 size: departureCity.PassengerChange,
-//                 color: departureCity.ToCities,
-//                 colorscale: "YlGnBu"
-//             }
-//         };
-
-//         let traceData = [tracebubble]
-
-//         let layout = {
-//             title: "Passenger Change",
-//             hovermode: "closest",
-//             xaxis: {title: "Destination City"},
-//         };
-
-//         Plotly.newPlot("bubble", traceData, layout)
-//     });
-// };
-
-
 
 function optionChanged(subject) {
 
@@ -191,71 +167,5 @@ function optionChanged(subject) {
 //    buildGauge(subject);
 
 };
-
-
-
-// function static_init() {
-//     d3.json(apiOriginal).then(function(data) {
-//       const departures = data;
-//       const arrivals = data['ToCities'];
-//       const priceChanges = data['Price Changed'];
-//       // Sort the price changes in descending order
-//       const sortedIndices = priceChanges.map((_, index) => index)
-//         .sort((a, b) => priceChanges[b] - priceChanges[a]);
-//       // Get the top five indices
-//       const topFiveIndices = sortedIndices.slice(0, 5);
-//       // Get the top five departure and arrival cities and price changes
-//       const topDepartures = topFiveIndices.map(index => departures[index]);
-//       const topArrivals = topFiveIndices.map(index => arrivals[index]);
-//       const topPriceChanges = topFiveIndices.map(index => priceChanges[index]);
-//       let trace1 = {
-//         x: topDepartures.map((departure, index) => departure + ' & ' + topArrivals[index]),
-//         y: topPriceChanges,
-//         type: 'bar',
-//         marker: {
-//           color: [
-//             'rgba(255, 100, 102, 0.7)',
-//             'rgba(254, 39, 60, 0.7)',
-//             'rgba(252, 185, 88, 0.7)',
-//             'rgba(40, 51, 223, 0.7)',
-//             'rgba(0, 155, 0, 0.7)'
-//           ],
-//         },
-//       };
-//       let layout1 = {
-//         title: 'Top Five Price Changes',
-//         font: { size: 18 },
-//         xaxis: {
-//           title: 'Departure & Arrival Cities'
-//         },
-//         yaxis: {
-//           title: 'Price Change'
-//         }
-//       };
-//       let config = { responsive: true }
-//       Plotly.newPlot("plot1", [trace1], layout1, config);
-//     });
-//   }
-
-// // Fetch data from the API route
-// d3.json(apiOriginal).then(function(data) {
-//     // Sort the data by "Price Changed" in ascending order
-//     data.sort((a, b) => a["Price Changed"] - b["Price Changed"]);
-  
-//     // Get the lowest 10 data objects
-//     const lowest10 = data.slice(0, 10);
-  
-//     // Render the bar graph
-//     const chartElement = document.getElementById("chart");
-  
-//     lowest10.forEach(item => {
-//       const barElement = document.createElement("div");
-//       barElement.classList.add("bar");
-//       barElement.style.height = `${Math.abs(item["Price Changed"])}px`;
-//       chartElement.appendChild(barElement);
-//     });
-//   }).catch(function(error) {
-//     console.log("Error fetching data from the API:", error);
-//   });
 
 init();

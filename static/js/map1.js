@@ -22,6 +22,19 @@ let myMap = L.map("map", {
   let apiCity = "/api/v1.0/flights_by_departure"
   
   d3.json(apiCity).then(function(data) {
+    console.log(data)
+
+    Object.entries(data).forEach(entry => {
+      const [key, value] = entry;
+      console.log(key, value.DestLat, value.DestLng);
+    
+    
+    L.circle([value.DestLat[0],value.DestLng[0]], {radius: 200}).addTo(myMap);
+    
+    
+    
+    
+    });
   
     console.log(data)
 
