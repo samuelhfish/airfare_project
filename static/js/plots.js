@@ -1,5 +1,6 @@
 // Grab data
-let apiAirfare = "/api/v1.0/departures";
+let apiAirfare = "/api/v1.0/flights_by_departure";
+let apiOriginal = "/api/v1.0/departures";
 
 // Fetch the JSON data and console log it
 function init() {
@@ -8,70 +9,127 @@ d3.json(apiAirfare).then(function(data) {
     let dropdownMenu = d3.select("#selDataset");
     
     // let departures = data.city1; 
-    console.log("Dep Data:");
-    console.log(data);
 
-    data.forEach((departure) => {
+    Object.keys(data).forEach((departure) => {
         dropdownMenu.append("option")
-        .text(departure["Departure City"])
-        .property("value", departure["Departure City"]);
+        .text(departure)
+        .property("value", departure);
     })
 
-    sample940 = data[0];
+    // sample940 = data[0];
 
-    console.log(sample940);
+    // console.log(sample940);
     
-    buildChart(sample940);
+    buildChart('Austin, TX');
     // buildMetadata(sample940);
-    // buildBubbles(sample940);
+    // buildBubbles('Austin, TX');
     // buildGauge(sample940);
 });
+
+// static_init();
+
 }
 
-init();
 
-function buildChart(pricechange) {
+// function buildFlightInfo(sample) {
     
+//     d3.json(apiAirfare).then(function(data) {
+        
+//         console.log(data);
+//         // let departures = data;
+        
+//         // console.log(departures);
+        
+//         // let info = departures.filter(function(result) {
+//         //     return result.departures == sample
+//         // });
+        
+//         // console.log(info)
+        
+//         subjectMetadata = data[0];
+        
+//         console.log(subjectMetadata)
+
+//         d3.select("#sample-metadata").html("");
+
+//         Object.entries(subjectMetadata).forEach(([key,value]) => {
+
+//             console.log(key,value);
+
+//             d3.select("#sample-metadata").append("h5").text(`${key}: ${value}`);
+//         });
+//     });
+// }
+
+// init();
+
+// function buildChart(city) {
+    
+//     d3.json(apiAirfare).then(function(data) {
+        
+//         let departureCity = data[city]
+
+//         let trace = {
+//             x: departureCity.ToCities,
+//             y: departureCity.Rates,
+//             // text: `${departureCity.PercentChangePrice}%`,
+//             // textposition: 'auto',
+//             // hoverinfo: 'none',
+//             // text: otu_labels.slice(0,10).reverse(),
+//             // name: "Bacteria",
+//             type: "bar",
+//             orientation: "v"
+//         };
+
+
+//         // Data array
+//         // `data` has already been defined, so we must choose a new name here:
+//         let traceData = [trace];
+
+//         // Apply a title to the layout
+//         let layout = {
+//             title: "price change by departure",
+//             margin: {
+//                 l: 100,
+//                 r: 100,
+//                 t: 100,
+//                 b: 100
+//             }
+//         };
+//         Plotly.newPlot("bar1", traceData, layout);
+//     });   
+// };
+
+function buildChart(city) {
     d3.json(apiAirfare).then(function(data) {
-        
-        console.log(data);
-        let sampleInfo = data.amounnt_changes;
-        
-        console.log(sampleInfo);
-        
-        subjectinfo = sampleInfo.filter(function(result) {
-            return result.city1 == pricechange
-        });
-        
-        console.log(subjectinfo);
-        
-        subjectData = subjectinfo[0];
-        console.log(data)
 
+        console.log(city);
 
-        let destination = subjectData.city2;
-        // let otu_labels = subjectData.otu_labels;
-        let amount_change = subjectData.amount_change;
+        let departureCity = data[city];
 
-        console.log(destination,amount_change);
-
-
-        let trace = {
-            x: amount_change.slice(0,10).reverse(),
-            y: destination.slice(0,10).map(name => `${name}`).reverse(),
-            // text: otu_labels.slice(0,10).reverse(),
-            // name: "Bacteria",
+        console.log(departureCity);
+        
+        let trace1 = {
+            x: departureCity.ToCities,
+            y: departureCity.Rates,
+            // text: `${departureCity.PercentChangePrice}%`,
+            // textposition: 'auto',
+            // hoverinfo: 'none',
             type: "bar",
-            orientation: "h"
+            orientation: "v"
         };
 
-        // Data array
-        // `data` has already been defined, so we must choose a new name here:
-        let traceData = [trace];
+        let trace2 = {
+            x: departureCity.ToCities,
+            y: departureCity.PassengerChange,
+            type: "bar",
+            orientation: "v"
+        };
 
-        // Apply a title to the layout
+        let traceData = [trace1];
+
         let layout = {
-            title: "top 10 price change",
+            title: "Price Change by Destination",
             margin: {
                 l: 100,
                 r: 100,
@@ -79,9 +137,24 @@ function buildChart(pricechange) {
                 b: 100
             }
         };
-        Plotly.newPlot("bar", traceData, layout);
+
+        Plotly.newPlot("bar1", traceData, layout);
+
+        traceData = [trace2];
+
+        layout = {
+            title: "Passenger Change by Destination",
+            margin: {
+                l: 100,
+                r: 100,
+                t: 100,
+                b: 100
+            }
+        };
+
+        Plotly.newPlot("bar2", traceData, layout);
     });   
-};
+}
 
 
 function optionChanged(subject) {
