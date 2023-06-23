@@ -30,10 +30,7 @@ let myMap = L.map("map", {
     
     
     L.circle([value.DestLat[0],value.DestLng[0]], {radius: 200}).addTo(myMap);
-    
-    
-    
-    
+       
     });
   
     console.log(data)
