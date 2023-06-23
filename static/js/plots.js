@@ -20,7 +20,7 @@ d3.json(apiAirfare).then(function(data) {
 
     // console.log(sample940);
     
-    buildChart('Austin, TX');
+    buildChart('Austin, TX  - Q1');
     // buildMetadata(sample940);
     // buildBubbles('Austin, TX');
     // buildGauge(sample940);
@@ -103,11 +103,13 @@ d3.json(apiAirfare).then(function(data) {
 function buildChart(city) {
     d3.json(apiAirfare).then(function(data) {
 
-        console.log(city);
+        console.log(`city: ${city}`);
+        console.log(`data:`);
+        console.log(data);
 
         let departureCity = data[city];
 
-        console.log(departureCity);
+        console.log(`dep city: ${departureCity}`);
         
         let trace1 = {
             x: departureCity.ToCities,
