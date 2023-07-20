@@ -1,6 +1,6 @@
 ## "Fluctuations in Airline Fares"
 
-This was a collaborative project to develop a full-stack web application. Our aim was to show how Price decreases and Passenger quantity increases corrrelated fluctuated and correlated. 
+This was a collaborative project to develop a full-stack web application. Our aim was to show how Price decreases and Passenger quantity increases fluctuated and correlated. 
 
        Technologies used:
             - pandas
