@@ -213,7 +213,14 @@ function createMap(city_map){
         console.log(data)
         for (let i = 0; i < data[city_map].ToCities.length; i++) {
           let value = data[city_map]
-          L.circle([value.DestLat[i],value.DestLng[i]], {radius: 200}).addTo(myMap);}
+          L.circle([value.DestLat[i],value.DestLng[i]], {
+            radius: -value.Rates[i] *1000,
+            fillColor: '#09f9df',
+            color:'#ff0000',
+            weight:1,
+            opacity: 1,
+            fillOpacity:1
+        }).addTo(myMap);}
     
         // Object.entries(data).forEach(entry => {
         //   const [key, value] = entry;
